@@ -3,15 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
-const cloudinary = require('cloudinary').v2;
 require('dotenv').config();
-
-// Cloudinary 설정
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-});
 
 const app = express();
 
@@ -35,8 +27,16 @@ mongoose.connect(MONGODB_URI).then(() => {
     console.error('MongoDB 연결 실패:', err);
 });
 
-// 임시 파일 저장을 위한 multer 설정
-const storage = multer.memoryStorage();
+// 파일 저장을 위한 multer 설정
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
 const upload = multer({ storage: storage });
 
 // 모집글 스키마 정의
@@ -59,18 +59,8 @@ app.post('/api/posts', upload.single('projectImage'), async (req, res) => {
         console.log('받은 데이터:', req.body);
         
         let imageUrl = null;
-        
         if (req.file) {
-            // 이미지를 Base64로 변환
-            const b64 = Buffer.from(req.file.buffer).toString('base64');
-            const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
-            
-            // Cloudinary에 업로드
-            const uploadResponse = await cloudinary.uploader.upload(dataURI, {
-                folder: 'indie-game-recruit'
-            });
-            
-            imageUrl = uploadResponse.secure_url;
+            imageUrl = `/uploads/${req.file.filename}`;
         }
         
         const postData = {
