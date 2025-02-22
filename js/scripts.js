@@ -18,6 +18,15 @@ const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 
 // 게시글 목록 렌더링
 function renderPosts(posts) {
+    if (posts.length === 0) {
+        postList.innerHTML = `
+            <div class="col-12 text-center">
+                <p class="text-muted">게시글이 없습니다.</p>
+            </div>
+        `;
+        return;
+    }
+
     postList.innerHTML = posts.map(post => `
         <div class="col-lg-6 col-xxl-4 mb-5">
             <div class="card h-100">
@@ -32,7 +41,7 @@ function renderPosts(posts) {
                     <hr>
                     <p class="small mb-0">연락처: ${post.contactInfo}</p>
                     <p class="small text-muted">작성일: ${new Date(post.createdAt).toLocaleDateString()}</p>
-                    <a href="#" class="stretched-link" onclick="viewPostDetails('${post._id}')"></a>
+                    <a href="post-detail.html?id=${post._id}" class="stretched-link"></a>
                 </div>
             </div>
         </div>
@@ -128,8 +137,34 @@ navLinks.forEach(link => {
         e.preventDefault();
         navLinks.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
-        loadPosts(link.textContent === '전체' ? '' : link.textContent, searchInput.value);
+        const position = link.textContent === '전체' ? '' : link.textContent;
+        loadPosts(position, searchInput.value);
+        
+        // URL 파라미터 업데이트
+        const url = new URL(window.location);
+        if (position) {
+            url.searchParams.set('position', position);
+        } else {
+            url.searchParams.delete('position');
+        }
+        window.history.pushState({}, '', url);
     });
+});
+
+// URL 파라미터에서 초기 필터 설정 가져오기
+window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const position = urlParams.get('position');
+    if (position) {
+        const link = Array.from(navLinks).find(l => l.textContent === position);
+        if (link) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            loadPosts(position, searchInput.value);
+        }
+    } else {
+        loadPosts();
+    }
 });
 
 // 데이터베이스 초기화
