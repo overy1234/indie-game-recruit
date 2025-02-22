@@ -132,17 +132,25 @@ searchInput.addEventListener('input', (e) => {
 });
 
 // 네비게이션 필터링
-navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+const dropdownItems = document.querySelectorAll('.dropdown-menu .dropdown-item');
+dropdownItems.forEach(item => {
+    item.addEventListener('click', (e) => {
         e.preventDefault();
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-        const position = link.textContent === '전체' ? '' : link.textContent;
-        loadPosts(position, searchInput.value);
+        // 활성화된 아이템 표시
+        dropdownItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        
+        // 드롭다운 버튼 텍스트 업데이트
+        const position = item.getAttribute('data-position');
+        const dropdownButton = document.querySelector('#navbarDropdown');
+        dropdownButton.textContent = position === '전체' ? '모집 분야' : position;
+        
+        // 게시글 필터링
+        loadPosts(position === '전체' ? '' : position, searchInput.value);
         
         // URL 파라미터 업데이트
         const url = new URL(window.location);
-        if (position) {
+        if (position !== '전체') {
             url.searchParams.set('position', position);
         } else {
             url.searchParams.delete('position');
@@ -156,10 +164,12 @@ window.addEventListener('load', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const position = urlParams.get('position');
     if (position) {
-        const link = Array.from(navLinks).find(l => l.textContent === position);
-        if (link) {
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
+        const item = Array.from(dropdownItems).find(i => i.getAttribute('data-position') === position);
+        if (item) {
+            dropdownItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            const dropdownButton = document.querySelector('#navbarDropdown');
+            dropdownButton.textContent = position;
             loadPosts(position, searchInput.value);
         }
     } else {
