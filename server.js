@@ -27,7 +27,7 @@ app.use(express.static('public'));
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // MongoDB Atlas 연결
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://your_username:your_password@cluster0.mongodb.net/indie_game_recruit?retryWrites=true&w=majority';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose.connect(MONGODB_URI, {
     serverSelectionTimeoutMS: 30000,
@@ -115,6 +115,20 @@ app.get('/api/posts', async (req, res) => {
         const posts = await Post.find(query).sort({ createdAt: -1 });
         res.json(posts);
     } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// 모집글 상세 조회
+app.get('/api/posts/:id', async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
+        }
+        res.json(post);
+    } catch (err) {
+        console.error('게시글 상세 조회 오류:', err);
         res.status(500).json({ message: err.message });
     }
 });

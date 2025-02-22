@@ -32,10 +32,25 @@ function renderPosts(posts) {
                     <hr>
                     <p class="small mb-0">연락처: ${post.contactInfo}</p>
                     <p class="small text-muted">작성일: ${new Date(post.createdAt).toLocaleDateString()}</p>
+                    <a href="#" class="stretched-link" onclick="viewPostDetails('${post._id}')"></a>
                 </div>
             </div>
         </div>
     `).join('');
+}
+
+// 게시글 상세 보기
+function viewPostDetails(postId) {
+    fetch(`${API_URL}/posts/${postId}`)
+        .then(response => response.json())
+        .then(post => {
+            // 상세 페이지 내용 표시
+            alert(`프로젝트명: ${post.projectTitle}\n설명: ${post.description}\n연락처: ${post.contactInfo}`);
+        })
+        .catch(err => {
+            console.error('게시글 상세 보기 오류:', err);
+            alert('게시글을 불러오는데 실패했습니다.');
+        });
 }
 
 // 게시글 목록 불러오기
