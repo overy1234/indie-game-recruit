@@ -7,7 +7,7 @@
 // Use this file to add JavaScript to your project
 
 // API 엔드포인트
-const API_URL = 'https://indie-game-recruit.onrender.com/api';  // Render.com 배포된 백엔드 URL
+const API_URL = 'https://port-0-indie-game-recruit-m7fplz478a553227.sel4.cloudtype.app/api';  // Cloudtype 배포된 백엔드 URL
 
 // DOM 요소
 const postList = document.getElementById('postList');
