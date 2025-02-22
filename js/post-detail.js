@@ -31,6 +31,16 @@ async function loadPostDetails() {
         document.getElementById('postContact').textContent = post.contactInfo;
         document.getElementById('postDate').textContent = `작성일: ${new Date(post.createdAt).toLocaleDateString()}`;
         
+        // SNS 링크 처리
+        const snsLinkContainer = document.getElementById('snsLinkContainer');
+        const snsLink = document.getElementById('postSnsLink');
+        if (post.snsLink) {
+            snsLink.href = post.snsLink;
+            snsLinkContainer.style.display = 'block';
+        } else {
+            snsLinkContainer.style.display = 'none';
+        }
+        
         // 페이지 제목 설정
         document.title = `${post.projectTitle} - 인디게임 개발자 모집`;
     } catch (err) {

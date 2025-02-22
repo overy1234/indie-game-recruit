@@ -36,14 +36,13 @@
             </div>
         </nav>
         <!-- Header-->
-        <header class="py-5">
+        <header class="py-5" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/background.png') center/cover no-repeat;">
             <div class="container px-lg-5">
-                <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+                <div class="p-4 p-lg-5 rounded-3 text-center text-white">
                     <div class="m-4 m-lg-5">
                         <h1 class="display-5 fw-bold">인디게임 개발자를 찾고 계신가요?</h1>
                         <p class="fs-4">당신의 게임 프로젝트에 필요한 팀원을 찾아보세요. 프로그래머, 아티스트, 기획자 등 다양한 분야의 전문가들이 기다리고 있습니다.</p>
                         <button class="btn btn-primary btn-lg me-2" data-bs-toggle="modal" data-bs-target="#writePostModal">모집글 작성하기</button>
-                       
                     </div>
                 </div>
             </div>
@@ -66,16 +65,20 @@
                                 <label for="recruitPosition" class="form-label">모집 포지션</label>
                                 <select class="form-select" id="recruitPosition" required>
                                     <option value="">선택해주세요</option>
-                                    <option value="planning">기획자</option>
-                                    <option value="programmer">프로그래머</option>
-                                    <option value="artist">아티스트</option>
-                                    <option value="sound">사운드디자이너</option>
-                                    <option value="etc">기타</option>
+                                    <option value="기획">기획</option>
+                                    <option value="아트">아트</option>
+                                    <option value="개발">개발</option>
+                                    <option value="음향">음향</option>
+                                    <option value="기타">기타</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="projectImage" class="form-label">프로젝트 이미지</label>
                                 <input type="file" class="form-control" id="projectImage" accept="image/*">
+                            </div>
+                            <div class="mb-3">
+                                <label for="snsLink" class="form-label">SNS 주소 (디스코드, 트위터 등)</label>
+                                <input type="url" class="form-control" id="snsLink" placeholder="https://">
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">프로젝트 설명</label>

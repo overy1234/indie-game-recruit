@@ -82,12 +82,12 @@ async function loadPosts(position = '', search = '') {
 submitPost.addEventListener('click', async () => {
     const formData = new FormData();
     
-    // 폼 데이터 수집
     formData.append('projectTitle', document.getElementById('projectTitle').value);
     formData.append('recruitPosition', document.getElementById('recruitPosition').value);
     formData.append('description', document.getElementById('description').value);
     formData.append('requirements', document.getElementById('requirements').value);
     formData.append('contactInfo', document.getElementById('contactInfo').value);
+    formData.append('snsLink', document.getElementById('snsLink').value);
     
     const projectImage = document.getElementById('projectImage').files[0];
     if (projectImage) {
@@ -131,7 +131,7 @@ searchInput.addEventListener('input', (e) => {
     }, 300);
 });
 
-// 네비게이션 필터
+// 네비게이션 필터링
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();

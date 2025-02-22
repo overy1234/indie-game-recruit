@@ -50,6 +50,7 @@ const postSchema = new mongoose.Schema({
     description: { type: String, required: true },
     requirements: String,
     contactInfo: { type: String, required: true },
+    snsLink: String,
     imageUrl: String,
     createdAt: { type: Date, default: Date.now }
 });
@@ -83,6 +84,7 @@ app.post('/api/posts', upload.single('projectImage'), async (req, res) => {
             description: req.body.description,
             requirements: req.body.requirements,
             contactInfo: req.body.contactInfo,
+            snsLink: req.body.snsLink,
             imageUrl: imageUrl
         };
 
