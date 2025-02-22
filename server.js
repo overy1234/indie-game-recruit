@@ -3,12 +3,24 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
 require('dotenv').config();
+
+// Cloudinary 설정
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 const app = express();
 
-// 미들웨어 설정
-app.use(cors());
+// CORS 설정
+app.use(cors({
+    origin: ['https://indie-game-recruit.netlify.app', 'http://localhost:3000'],
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -17,28 +29,14 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 // MongoDB Atlas 연결
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://your_username:your_password@cluster0.mongodb.net/indie_game_recruit?retryWrites=true&w=majority';
 
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
+mongoose.connect(MONGODB_URI).then(() => {
     console.log('MongoDB Atlas 연결 성공');
 }).catch((err) => {
     console.error('MongoDB 연결 실패:', err);
 });
 
-// 이미지 업로드 설정
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, 'public/uploads/');
-    },
-    filename: function(req, file, cb) {
-        // 한글 파일명 처리
-        const originalname = Buffer.from(file.originalname, 'latin1').toString('utf8');
-        const filename = Date.now() + path.extname(originalname);
-        cb(null, filename);
-    }
-});
-
+// 임시 파일 저장을 위한 multer 설정
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // 모집글 스키마 정의
@@ -59,7 +57,21 @@ const Post = mongoose.model('Post', postSchema);
 app.post('/api/posts', upload.single('projectImage'), async (req, res) => {
     try {
         console.log('받은 데이터:', req.body);
-        console.log('받은 파일:', req.file);
+        
+        let imageUrl = null;
+        
+        if (req.file) {
+            // 이미지를 Base64로 변환
+            const b64 = Buffer.from(req.file.buffer).toString('base64');
+            const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
+            
+            // Cloudinary에 업로드
+            const uploadResponse = await cloudinary.uploader.upload(dataURI, {
+                folder: 'indie-game-recruit'
+            });
+            
+            imageUrl = uploadResponse.secure_url;
+        }
         
         const postData = {
             projectTitle: req.body.projectTitle,
@@ -67,7 +79,7 @@ app.post('/api/posts', upload.single('projectImage'), async (req, res) => {
             description: req.body.description,
             requirements: req.body.requirements,
             contactInfo: req.body.contactInfo,
-            imageUrl: req.file ? `http://localhost:3000/uploads/${req.file.filename}` : null
+            imageUrl: imageUrl
         };
 
         const post = new Post(postData);
