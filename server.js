@@ -50,7 +50,7 @@ const postSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-const Post = mongoose.Model('Post', postSchema);
+const Post = mongoose.model('Post', postSchema);
 
 // API 엔드포인트
 // 모집글 작성
