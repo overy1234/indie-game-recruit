@@ -29,7 +29,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 // MongoDB Atlas 연결
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://your_username:your_password@cluster0.mongodb.net/indie_game_recruit?retryWrites=true&w=majority';
 
-mongoose.connect(MONGODB_URI).then(() => {
+mongoose.connect(MONGODB_URI, {
+    serverSelectionTimeoutMS: 30000,
+    socketTimeoutMS: 30000,
+    connectTimeoutMS: 30000
+}).then(() => {
     console.log('MongoDB Atlas 연결 성공');
 }).catch((err) => {
     console.error('MongoDB 연결 실패:', err);
