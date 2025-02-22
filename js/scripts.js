@@ -36,7 +36,10 @@ function renderPosts(posts) {
                 }
                 <div class="card-body">
                     <h5 class="card-title">${post.projectTitle}</h5>
-                    <span class="badge bg-primary mb-2">${post.recruitPosition}</span>
+                    <div class="mb-2">
+                        <span class="badge bg-info me-1">${post.projectType}</span>
+                        <span class="badge bg-primary">${post.recruitPosition}</span>
+                    </div>
                     <p class="card-text">${post.description.substring(0, 100)}${post.description.length > 100 ? '...' : ''}</p>
                     <hr>
                     <p class="small mb-0">연락처: ${post.contactInfo}</p>
@@ -83,6 +86,7 @@ submitPost.addEventListener('click', async () => {
     const formData = new FormData();
     
     formData.append('projectTitle', document.getElementById('projectTitle').value);
+    formData.append('projectType', document.getElementById('projectType').value);
     formData.append('recruitPosition', document.getElementById('recruitPosition').value);
     formData.append('description', document.getElementById('description').value);
     formData.append('requirements', document.getElementById('requirements').value);

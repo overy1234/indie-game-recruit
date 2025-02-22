@@ -46,6 +46,7 @@ const upload = multer({ storage: storage });
 // 모집글 스키마 정의
 const postSchema = new mongoose.Schema({
     projectTitle: { type: String, required: true },
+    projectType: { type: String, required: true },
     recruitPosition: { type: String, required: true },
     description: { type: String, required: true },
     requirements: String,
@@ -80,6 +81,7 @@ app.post('/api/posts', upload.single('projectImage'), async (req, res) => {
         
         const postData = {
             projectTitle: req.body.projectTitle,
+            projectType: req.body.projectType,
             recruitPosition: req.body.recruitPosition,
             description: req.body.description,
             requirements: req.body.requirements,

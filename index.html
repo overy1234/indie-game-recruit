@@ -18,14 +18,14 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container px-lg-5">
                 <a class="navbar-brand fw-bold" href="#!">
-                    <i class="bi bi-controller me-2"></i>인디게임 개발자 모집
+                    <i class="bi bi-controller me-2"></i>인디코드
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                모집 분야
+                                <i class="bi bi-people-fill me-1"></i>모집 분야
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item active" href="#!" data-position="전체">전체</a></li>
@@ -37,8 +37,19 @@
                                 <li><a class="dropdown-item" href="#!" data-position="기타">기타</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#!">게임 소개</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">행사 및 홍보</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="studyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-book me-1"></i>스터디
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="studyDropdown">
+                                <li><a class="dropdown-item" href="#!">프로그래밍</a></li>
+                                <li><a class="dropdown-item" href="#!">게임 기획</a></li>
+                                <li><a class="dropdown-item" href="#!">게임 아트</a></li>
+                                <li><a class="dropdown-item" href="#!">엔진 스터디</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#!"><i class="bi bi-joystick me-1"></i>게임 소개</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!"><i class="bi bi-megaphone me-1"></i>행사 및 홍보</a></li>
                     </ul>
                     <form class="d-flex">
                         <div class="input-group">
@@ -56,9 +67,11 @@
             <div class="container px-lg-5">
                 <div class="p-4 p-lg-5 rounded-3 text-center text-white">
                     <div class="m-4 m-lg-5">
-                        <h1 class="display-5 fw-bold">인디게임 개발자를 찾고 계신가요?</h1>
-                        <p class="fs-4">당신의 게임 프로젝트에 필요한 팀원을 찾아보세요. 프로그래머, 아티스트, 기획자 등 다양한 분야의 전문가들이 기다리고 있습니다.</p>
-                        <button class="btn btn-primary btn-lg me-2" data-bs-toggle="modal" data-bs-target="#writePostModal">모집글 작성하기</button>
+                        <h1 class="display-5 fw-bold">함께 성장하는 개발자 커뮤니티</h1>
+                        <p class="fs-4">인디게임, 사이드 프로젝트, 스터디까지!<br>당신의 아이디어를 현실로 만들어줄 팀원을 찾아보세요.</p>
+                        <button class="btn btn-primary btn-lg me-2" data-bs-toggle="modal" data-bs-target="#writePostModal">
+                            <i class="bi bi-plus-circle me-2"></i>모집글 작성하기
+                        </button>
                     </div>
                 </div>
             </div>
@@ -68,11 +81,22 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="writePostModalLabel">팀원 모집글 작성</h5>
+                        <h5 class="modal-title" id="writePostModalLabel">
+                            <i class="bi bi-pencil-square me-2"></i>팀원 모집글 작성
+                        </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="recruitForm">
+                            <div class="mb-3">
+                                <label for="projectType" class="form-label">모집 유형</label>
+                                <select class="form-select" id="projectType" required>
+                                    <option value="">선택해주세요</option>
+                                    <option value="인디게임">인디게임</option>
+                                    <option value="사이드프로젝트">사이드프로젝트</option>
+                                    <option value="스터디">스터디</option>
+                                </select>
+                            </div>
                             <div class="mb-3">
                                 <label for="projectTitle" class="form-label">프로젝트명</label>
                                 <input type="text" class="form-control" id="projectTitle" required>
@@ -112,7 +136,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                        <button type="button" class="btn btn-primary" id="submitPost">등록하기</button>
+                        <button type="button" class="btn btn-primary" id="submitPost">
+                            <i class="bi bi-check2 me-1"></i>등록하기
+                        </button>
                     </div>
                 </div>
             </div>
